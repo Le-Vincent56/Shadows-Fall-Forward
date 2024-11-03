@@ -18,15 +18,20 @@ namespace ShadowsFallForward.Input
         PlayerInputActions inputActions;
 
         public Vector3 Direction => inputActions.Player.Move.ReadValue<Vector2>();
+        public Vector3 LookDirection => inputActions.Player.Look.ReadValue<Vector2>();
 
         private void OnEnable()
         {
-            // Exit case - the Input Actions are already set
-            if (inputActions != null) return;
+            // Check if no input actions were set
+            if (inputActions == null)
+            {
+                // Set Player Input Actions
+                inputActions = new PlayerInputActions();
+                inputActions.Player.SetCallbacks(this);
+            }
 
-            // Set Player Input Actions
-            inputActions = new PlayerInputActions();
-            inputActions.Player.SetCallbacks(this);
+            // Enable the input actions
+            inputActions.Enable();
         }
 
         public void Enable() => inputActions.Enable();
