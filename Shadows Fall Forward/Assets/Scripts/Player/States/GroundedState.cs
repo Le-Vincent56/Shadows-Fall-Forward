@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace ShadowsFallForward.Player.States
 {
     public class GroundedState : PlayerState

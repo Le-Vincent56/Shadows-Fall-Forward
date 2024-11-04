@@ -20,7 +20,7 @@ namespace ShadowsFallForward.Input
         public Vector3 Direction => inputActions.Player.Move.ReadValue<Vector2>();
         public Vector3 LookDirection => inputActions.Player.Look.ReadValue<Vector2>();
 
-        private void OnEnable()
+        public void Enable()
         {
             // Check if no input actions were set
             if (inputActions == null)
@@ -33,9 +33,7 @@ namespace ShadowsFallForward.Input
             // Enable the input actions
             inputActions.Enable();
         }
-
-        public void Enable() => inputActions.Enable();
-        public void OnDisable() => inputActions.Disable();
+        public void Disable() => inputActions.Disable();
 
         /// <summary>
         /// Check if the Mouse is being used

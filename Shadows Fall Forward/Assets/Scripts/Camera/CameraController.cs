@@ -1,7 +1,5 @@
 using ShadowsFallForward.Input;
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShadowsFallForward.Camera
@@ -16,18 +14,16 @@ namespace ShadowsFallForward.Camera
         [SerializeField][Range(0f, 90f)] private float upperVerticalLimit = 35f;
         [SerializeField][Range(0f, 90f)] private float lowerVerticalLimit = 35f;
 
-        private float cameraSpeed = 50f;
-        private bool smoothCameraRotation;
+        [SerializeField] private float cameraSpeed = 50f;
+        [SerializeField] private bool smoothCameraRotation;
         [SerializeField][Range(1f, 50f)] private float cameraSmoothingFactor = 25f;
 
         private Transform tr;
-        private UnityEngine.Camera cam;
 
         private void Awake()
         {
             // Get components
             tr = transform;
-            cam = GetComponentInChildren<UnityEngine.Camera>();
 
             // Set the current angles
             currentXAngle = tr.localRotation.eulerAngles.x;
@@ -36,12 +32,31 @@ namespace ShadowsFallForward.Camera
 
         private void Update()
         {
-            RotateCamera(input.LookDirection.x, input.LookDirection.y);
+            RotateCamera(input.LookDirection.x, -input.LookDirection.y);
         }
 
+        /// <summary>
+        /// Handle rotating the camera
+        /// </summary>
         private void RotateCamera(float horizontalInput, float verticalInput)
         {
+            // Check if to smooth the camera rotation
+            if(smoothCameraRotation)
+            {
+                // Lerp the inputs
+                horizontalInput = Mathf.Lerp(0, horizontalInput, Time.deltaTime * cameraSmoothingFactor);
+                verticalInput = Mathf.Lerp(0, verticalInput, Time.deltaTime * cameraSmoothingFactor);
+            }
 
+            // Update the camera angles
+            currentXAngle += verticalInput * cameraSpeed * Time.deltaTime;
+            currentYAngle += horizontalInput * cameraSpeed * Time.deltaTime;
+
+            // Clamp the x-angle to ensure it stays within the vertical limits
+            currentXAngle = Mathf.Clamp(currentXAngle, -upperVerticalLimit, lowerVerticalLimit);
+
+            // Set the rotation
+            tr.localRotation = Quaternion.Euler(currentXAngle, currentYAngle, 0);
         }
 
         /// <summary>

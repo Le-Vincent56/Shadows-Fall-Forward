@@ -52,6 +52,9 @@ namespace ShadowsFallForward.Player
             rb.useGravity = false;
         }
 
+        /// <summary>
+        /// Calculate collider dimensions
+        /// </summary>
         private void RecalculateColliderDimensions()
         {
             // If no Collider is set, run the Setup
@@ -75,6 +78,9 @@ namespace ShadowsFallForward.Player
             RecalibrateSensor();
         }
 
+        /// <summary>
+        /// Calibrate the RaycastSensor
+        /// </summary>
         private void RecalibrateSensor()
         {
             // If a RaycastSensor is not already set, create one and set it
@@ -96,6 +102,9 @@ namespace ShadowsFallForward.Player
             sensor.castLength = length * tr.localScale.x;
         }
 
+        /// <summary>
+        /// Calculate the RaycastSensor's LayerMask
+        /// </summary>
         private void RecalculateSensorLayerMask()
         {
             // Get the current layer
