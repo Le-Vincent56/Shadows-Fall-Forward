@@ -1,3 +1,5 @@
+using ShadowsFallForward.Player.Control;
+
 namespace ShadowsFallForward.Player.States
 {
     public class GroundedState : PlayerState

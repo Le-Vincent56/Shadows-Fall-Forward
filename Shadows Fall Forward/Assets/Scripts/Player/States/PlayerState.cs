@@ -1,4 +1,5 @@
 using ShadowsFallForward.Patterns.StateMachine;
+using ShadowsFallForward.Player.Control;
 
 namespace ShadowsFallForward.Player.States
 {

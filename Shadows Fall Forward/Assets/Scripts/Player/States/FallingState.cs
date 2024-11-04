@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using ShadowsFallForward.Player.Control;
 
 namespace ShadowsFallForward.Player.States
 {
