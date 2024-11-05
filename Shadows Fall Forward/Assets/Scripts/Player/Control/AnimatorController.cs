@@ -8,7 +8,12 @@ namespace ShadowsFallForward.Player.Control
         private PlayerController controller;
         private Animator animator;
 
-        private readonly int SpeedHash = Animator.StringToHash("Speed");
+        private readonly int HorizontalHash = Animator.StringToHash("HorizontalDirection");
+        private readonly int VerticalHash = Animator.StringToHash("VerticalDirection");
+
+        private float currentHorizontal;
+        private float currentVertical;
+        [SerializeField] private float smoothTime = 0.1f;
 
         private void Start()
         {
@@ -19,7 +24,18 @@ namespace ShadowsFallForward.Player.Control
 
         private void Update()
         {
-            animator.SetFloat(SpeedHash, controller.GetMovementVelocity().magnitude);
+            // Get the target movement direction
+            Vector3 targetDirection = controller.GetMovementDirection();
+            float targetHorizontal = targetDirection.x;
+            float targetVertical = targetDirection.z;
+
+            // Interpolate the current values toward the target values
+            currentHorizontal = Mathf.Lerp(currentHorizontal, targetHorizontal, Time.deltaTime / smoothTime);
+            currentVertical = Mathf.Lerp(currentVertical, targetVertical, Time.deltaTime / smoothTime);
+
+            // Set the interpolated values in the animator
+            animator.SetFloat(HorizontalHash, currentHorizontal);
+            animator.SetFloat(VerticalHash, currentVertical);
         }
     }
 }

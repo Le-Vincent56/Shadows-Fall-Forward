@@ -31,6 +31,7 @@ namespace ShadowsFallForward.Player.Control
         private Vector3 momentum;
         private Vector3 savedVelocity;
         private Vector3 savedMovementVelocity;
+        private Vector3 movementDirection;
 
         public event Action<Vector3> OnLand = delegate { };
 
@@ -131,6 +132,11 @@ namespace ShadowsFallForward.Player.Control
         /// Get the movement velocity of the Player
         /// </summary>
         public Vector3 GetMovementVelocity() => savedMovementVelocity;
+
+        /// <summary>
+        /// Get the direction of movement of the Player
+        /// </summary>
+        public Vector3 GetMovementDirection() => movementDirection;
 
         /// <summary>
         /// Calculate Player momentum
@@ -264,10 +270,11 @@ namespace ShadowsFallForward.Player.Control
                 : Vector3.ProjectOnPlane(cameraTransform.right, tr.up).normalized * input.Direction.x +
                   Vector3.ProjectOnPlane(cameraTransform.forward, tr.up).normalized * input.Direction.y;
 
-            // Return the direction, normalizing it if its magnitude is greater than 1
-            return direction.magnitude > 1f ? direction.normalized : direction;
-        }
+            movementDirection = direction.magnitude > 1f ? direction.normalized : direction;
 
+            // Return the direction, normalizing it if its magnitude is greater than 1
+            return movementDirection;
+        }
 
         /// <summary>
         /// Handle the Player's velocity when losing ground contact
